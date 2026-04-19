@@ -1,0 +1,18 @@
+Package: r.package
+Title: An R Package
+Version: 0.0.0.9000
+Authors@R: 
+    person("Josh", "Livingston", , "joshwlivingston@gmail.com", role = c("aut", "cre"))
+Description: Demo R Package built for r-in-aws Github repo.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    data.table,
+    paws.storage,
+    S7
+Suggests:
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3

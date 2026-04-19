@@ -1,0 +1,14 @@
+{
+    "Rules": [
+        {
+            "ID": "CleanupOldVersions",
+            "Status": "Enabled",
+            "Filter": {
+                "Prefix": ""
+            },
+            "NoncurrentVersionExpiration": {
+                "NoncurrentDays": 90
+            }
+        }
+    ]
+}

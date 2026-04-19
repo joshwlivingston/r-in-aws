@@ -1,0 +1,17 @@
+name: ci
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test-package-r:
+    uses: ./.github/workflows/test-package-r.yml
+
+  test-build:
+    needs: [test-package-r]
+    uses: ./.github/workflows/test-build.yml

@@ -1,0 +1,14 @@
+name: test-build
+
+on:
+  workflow_call:
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build --platform linux/amd64 -t lift-model:local .
+      - name: Smoke test - verify package loads
+        run: docker run --rm --entrypoint Rscript lift-model:local -e "library(r.package); cat('OK\n')"

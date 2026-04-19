@@ -1,0 +1,35 @@
+name: test-deployment
+
+on:
+  workflow_call:
+    inputs:
+      function_name:
+        description: Lambda function name to invoke
+        type: string
+        default: calculate_lift_dev
+  workflow_dispatch:
+    inputs:
+      function_name:
+        description: Lambda function name to invoke
+        type: string
+        default: calculate_lift_dev
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Invoke Lambda
+        run: |
+          aws lambda invoke --function-name ${{ inputs.function_name }} \
+            --payload '{"scaling_factor": 1.5}' \
+            --cli-binary-format raw-in-base64-out \
+            response.json
+          cat response.json
+          jq -e '.lift | type == "number"' response.json
