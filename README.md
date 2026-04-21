@@ -28,6 +28,7 @@ Demo repo (Claude-assisted) showcasing how to deploy an R package as an AWS Lamb
 │   │   └── prod/
 │   └── modules/
 │       ├── ecr/                     # Container registry
+│       ├── github-oidc/             # OIDC role and policy
 │       └── lambda/                  # Lambda function
 │
 ├── scripts/
