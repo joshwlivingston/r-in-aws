@@ -16,6 +16,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    outputs:
+      role_arn: ${{ steps.role.outputs.arn }}
 
     steps:
       - uses: actions/checkout@v4
@@ -53,10 +55,17 @@ jobs:
             -var="ecr_repository_url=${{ steps.ecr.outputs.url }}" \
             -var="image_tag=${{ github.sha }}"
 
+      - name: Get deploy role ARN
+        id: role
+        working-directory: terraform/environments/dev
+        run: echo "arn=$(terraform output -raw github_deploy_role_arn)" >> $GITHUB_OUTPUT
+
   smoke-test:
     needs: deploy
     permissions:
       id-token: write
       contents: read
     uses: ./.github/workflows/test-deployment.yml
+    with:
+      role_arn: ${{ needs.deploy.outputs.role_arn }}
     secrets: inherit
