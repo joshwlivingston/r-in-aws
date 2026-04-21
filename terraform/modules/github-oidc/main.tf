@@ -78,10 +78,13 @@ resource "aws_iam_role_policy" "github_deploy" {
           "ecr:GetDownloadUrlForLayer",
           "ecr:GetLifecyclePolicy",
           "ecr:InitiateLayerUpload",
+          "ecr:DeleteRepositoryPolicy",
+          "ecr:GetRepositoryPolicy",
           "ecr:ListTagsForResource",
           "ecr:PutImage",
           "ecr:PutImageScanningConfiguration",
           "ecr:PutImageTagMutability",
+          "ecr:SetRepositoryPolicy",
           "ecr:TagResource",
           "ecr:UntagResource",
           "ecr:UploadLayerPart"
