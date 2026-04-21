@@ -17,3 +17,8 @@ output "lambda_function_name" {
   description = "The name of the Lambda function"
   value       = module.lambda_function.function_name
 }
+
+output "github_deploy_role_arn" {
+  description = "ARN of the IAM role for GitHub Actions OIDC deployment"
+  value       = module.github_oidc.role_arn
+}

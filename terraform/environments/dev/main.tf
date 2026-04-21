@@ -20,3 +20,11 @@ module "ecr" {
   source      = "../../modules/ecr"
   environment = var.environment
 }
+
+module "github_oidc" {
+  source               = "../../modules/github-oidc"
+  github_repo          = var.github_repo
+  environment          = var.environment
+  region               = var.region
+  create_oidc_provider = false # Provider already exists in this AWS account
+}

@@ -55,7 +55,7 @@ resource "aws_iam_role_policy_attachment" "attach_s3" {
 
 # S3 Bucket
 resource "aws_s3_bucket" "data_bucket" {
-  bucket = "lift-model-data-${var.environment}"
+  bucket = "cmpex-data-${var.environment}"
 }
 
 # Upload the file to S3

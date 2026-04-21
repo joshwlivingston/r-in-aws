@@ -35,3 +35,8 @@ variable "ecr_repository_url" {
   type        = string
   default     = ""
 }
+
+variable "github_repo" {
+  type        = string
+  description = "GitHub repository in 'owner/repo' format"
+}
