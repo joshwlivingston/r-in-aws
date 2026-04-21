@@ -110,15 +110,18 @@ resource "aws_iam_role_policy" "github_deploy" {
         ]
         Resource = "arn:aws:lambda:${var.region}:${local.account_id}:function:calculate_lift_${var.environment}"
       },
-      # IAM — list OIDC providers (required for data source lookup) + manage Lambda role/policy
+      # IAM — OIDC provider lookup (account-level list/get) + manage Lambda role/policy
       {
-        Sid      = "IAMListOIDC"
-        Effect   = "Allow"
-        Action   = ["iam:ListOpenIDConnectProviders"]
+        Sid    = "IAMOIDCRead"
+        Effect = "Allow"
+        Action = [
+          "iam:ListOpenIDConnectProviders",
+          "iam:GetOpenIDConnectProvider"
+        ]
         Resource = "*"
       },
       {
-        Sid    = "IAM"
+        Sid    = "IAMRolePolicy"
         Effect = "Allow"
         Action = [
           "iam:AttachRolePolicy",
@@ -127,12 +130,8 @@ resource "aws_iam_role_policy" "github_deploy" {
           "iam:DeletePolicy",
           "iam:DeleteRole",
           "iam:DetachRolePolicy",
-          "iam:GetPolicy",
-          "iam:GetPolicyVersion",
-          "iam:GetRole",
-          "iam:ListAttachedRolePolicies",
-          "iam:ListPolicyVersions",
-          "iam:ListRolePolicies",
+          "iam:Get*",
+          "iam:List*",
           "iam:PassRole",
           "iam:TagPolicy",
           "iam:TagRole",
@@ -144,7 +143,7 @@ resource "aws_iam_role_policy" "github_deploy" {
           "arn:aws:iam::${local.account_id}:policy/lift-model-s3-read-${var.environment}"
         ]
       },
-      # S3 — data bucket
+      # S3 — data bucket (Get*/List* covers all read variants Terraform needs during refresh)
       {
         Sid    = "S3Data"
         Effect = "Allow"
@@ -152,12 +151,8 @@ resource "aws_iam_role_policy" "github_deploy" {
           "s3:CreateBucket",
           "s3:DeleteBucket",
           "s3:DeleteObject",
-          "s3:GetBucketAcl",
-          "s3:GetBucketLocation",
-          "s3:GetBucketVersioning",
-          "s3:GetEncryptionConfiguration",
-          "s3:GetObject",
-          "s3:ListBucket",
+          "s3:Get*",
+          "s3:List*",
           "s3:PutBucketTagging",
           "s3:PutObject"
         ]
@@ -172,12 +167,8 @@ resource "aws_iam_role_policy" "github_deploy" {
         Effect = "Allow"
         Action = [
           "s3:DeleteObject",
-          "s3:GetBucketAcl",
-          "s3:GetBucketLocation",
-          "s3:GetBucketVersioning",
-          "s3:GetEncryptionConfiguration",
-          "s3:GetObject",
-          "s3:ListBucket",
+          "s3:Get*",
+          "s3:List*",
           "s3:PutObject"
         ]
         Resource = [
