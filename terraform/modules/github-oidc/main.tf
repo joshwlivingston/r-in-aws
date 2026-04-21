@@ -129,10 +129,12 @@ resource "aws_iam_role_policy" "github_deploy" {
           "iam:CreateRole",
           "iam:DeletePolicy",
           "iam:DeleteRole",
+          "iam:DeleteRolePolicy",
           "iam:DetachRolePolicy",
           "iam:Get*",
           "iam:List*",
           "iam:PassRole",
+          "iam:PutRolePolicy",
           "iam:TagPolicy",
           "iam:TagRole",
           "iam:UntagPolicy",
@@ -140,7 +142,8 @@ resource "aws_iam_role_policy" "github_deploy" {
         ]
         Resource = [
           "arn:aws:iam::${local.account_id}:role/lift-model-role-${var.environment}",
-          "arn:aws:iam::${local.account_id}:policy/lift-model-s3-read-${var.environment}"
+          "arn:aws:iam::${local.account_id}:policy/lift-model-s3-read-${var.environment}",
+          "arn:aws:iam::${local.account_id}:role/github-deploy-${var.environment}"
         ]
       },
       # S3 — data bucket (Get*/List* covers all read variants Terraform needs during refresh)
