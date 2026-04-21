@@ -41,8 +41,12 @@ resource "aws_iam_role" "github_deploy" {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
         }
         StringLike = {
-          # Scoped to the GitHub environment (set on the deploy job)
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:environment:${var.environment}"
+          # Deploy job uses environment:dev; smoke-test reusable workflow has no environment
+          # so its subject is ref-based. Both must be allowed.
+          "token.actions.githubusercontent.com:sub" = [
+            "repo:${var.github_repo}:environment:${var.environment}",
+            "repo:${var.github_repo}:ref:refs/heads/main"
+          ]
         }
       }
     }]
