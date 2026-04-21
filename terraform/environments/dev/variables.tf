@@ -40,3 +40,8 @@ variable "github_repo" {
   type        = string
   description = "GitHub repository in 'owner/repo' format"
 }
+
+variable "data_bucket_name" {
+  type        = string
+  description = "Name of the S3 bucket used for Lambda model data (must match what is in Terraform state)"
+}

@@ -27,4 +27,5 @@ module "github_oidc" {
   environment          = var.environment
   region               = var.region
   create_oidc_provider = false # Provider already exists in this AWS account
+  data_bucket_name     = var.data_bucket_name
 }

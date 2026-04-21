@@ -20,3 +20,8 @@ variable "create_oidc_provider" {
   description = "Create the GitHub OIDC provider. Set to false if it already exists in this account (only one allowed per account)."
   default     = true
 }
+
+variable "data_bucket_name" {
+  type        = string
+  description = "Name of the S3 bucket used for Lambda model data"
+}

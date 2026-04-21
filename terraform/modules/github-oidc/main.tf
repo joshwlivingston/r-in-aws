@@ -110,7 +110,13 @@ resource "aws_iam_role_policy" "github_deploy" {
         ]
         Resource = "arn:aws:lambda:${var.region}:${local.account_id}:function:calculate_lift_${var.environment}"
       },
-      # IAM — manage Lambda execution role and S3 read policy
+      # IAM — list OIDC providers (required for data source lookup) + manage Lambda role/policy
+      {
+        Sid      = "IAMListOIDC"
+        Effect   = "Allow"
+        Action   = ["iam:ListOpenIDConnectProviders"]
+        Resource = "*"
+      },
       {
         Sid    = "IAM"
         Effect = "Allow"
@@ -156,8 +162,8 @@ resource "aws_iam_role_policy" "github_deploy" {
           "s3:PutObject"
         ]
         Resource = [
-          "arn:aws:s3:::lift-model-data-${var.environment}",
-          "arn:aws:s3:::lift-model-data-${var.environment}/*"
+          "arn:aws:s3:::${var.data_bucket_name}",
+          "arn:aws:s3:::${var.data_bucket_name}/*"
         ]
       },
       # S3 — Terraform state bucket
