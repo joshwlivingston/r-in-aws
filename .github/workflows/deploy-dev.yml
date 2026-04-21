@@ -55,5 +55,8 @@ jobs:
 
   smoke-test:
     needs: deploy
+    permissions:
+      id-token: write
+      contents: read
     uses: ./.github/workflows/test-deployment.yml
     secrets: inherit
